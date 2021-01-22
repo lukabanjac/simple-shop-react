@@ -1,0 +1,32 @@
+#shop {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+
+    margin-top: 30px;
+    color: #2c3e50;
+
+    /* background-color: gainsboro; */
+}
+.spn {
+    width: 120px;
+    height: 120px;
+    margin-top: 10%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.products-group {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-field {
+    margin-left: 5px;
+}
+
+.btn-group {
+    margin: 5px;
+}

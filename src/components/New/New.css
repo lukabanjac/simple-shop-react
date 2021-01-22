@@ -1,0 +1,20 @@
+.bottom-element {
+    align-content: space-between;
+}
+
+.img-thumbnail {
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.submit-reset {
+    background: white;
+}
+
+.fixed-bottom {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.new-product {
+    margin: 60px;
+}
