@@ -1,4 +1,5 @@
 import React from "react";
+import { TiShoppingCart } from "react-icons/ti";
 import { Link } from "react-router-dom"
 
 import { Button, Nav, Navbar } from "react-bootstrap";
@@ -11,9 +12,11 @@ import "./Navigation.css";
 const Navigation = () => {
     return (
         <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="/">
-                <img src={logo} alt="Logo" />
-            </Navbar.Brand>
+            <Link to="/">
+                <Navbar.Brand>
+                    <img src={logo} alt="Logo" />
+                </Navbar.Brand>
+            </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
@@ -23,6 +26,10 @@ const Navigation = () => {
                      
                     <Link to="/new">
                         <Button variant="success">New Product</Button>
+                    </Link>
+
+                    <Link to="/cart">
+                        <Button><TiShoppingCart /></Button>
                     </Link>
                 </Nav>
 {/*                 <Form inline>

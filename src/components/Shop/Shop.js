@@ -1,12 +1,13 @@
 import * as React from "react";
-import axios from 'axios';
+import ApiService from '../../service/api-service';
+import ShopContext from '../../context/shop-context'
 import { BsSearch } from "react-icons/bs";
+
 
 import "./Shop.css";
 
 import Products from "./Products/Products";
 
-const url = "https://my-json-server.typicode.com/brankostancevic/products/products";
 
 /* 
 const radios = [
@@ -15,38 +16,38 @@ const radios = [
   ]; */
 
 class Shop extends React.Component {
+    static contextType = ShopContext;
     constructor(props) {
         super(props);
         this.state = {
-            products : [],
             loaded : false
         }
     }
 
     componentDidMount() {
-        axios.get(url)
-        .then(res => {
-            if (res.status === 200) {
-                this.setState({
-                    products: res.data,
-                    loaded: true
-                })
-            } else {
-                alert("Error getting products! Please check your connection!")
-            }
-        })
+        const get = ApiService.getProducts();
+        get.then((data) => {
+            this.context.products = data;
+            this.setState({ loaded: true });
+        }).catch((msg) => {
+            alert(msg);
+        });
+        console.log(this.context)
     }
 
     
 
     render() {
         return (
-            <div id="shop">
-                <BsSearch />
-                <input placeholder="Search" />
-
-                <LoadedCheck isLoaded={this.state.loaded} products={this.state.products} />
-            </div>
+            <ShopContext.Consumer>
+                {context => (
+                    <div id="shop">
+                        <BsSearch />
+                        <input placeholder="Search" />
+                        <LoadedCheck isLoaded={this.state.loaded} products={this.context.products} />
+                    </div>
+                )}
+            </ShopContext.Consumer>
              
         );
     }

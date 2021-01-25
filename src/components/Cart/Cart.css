@@ -1,0 +1,40 @@
+.product-row {
+   border-bottom: 1px solid lightgray;
+}
+
+.product-title {
+   text-align: left;
+}
+
+
+.product-description {
+   color: gray;
+   font-size: 13px;
+   text-align: left;
+}
+
+.product-price {
+   font-weight: bold;
+   font-size: 25px;
+   text-align: right;
+}
+
+.product-remove {
+   text-align: right;
+}
+
+
+
+.total-text {
+   font-size: 40px;
+   font-weight: bold;
+   text-align: left;
+}
+
+.total-price {
+   font-size: 40px;
+   font-weight: bold;
+   text-align: right;
+   color: #2e377e;
+   text-shadow: 5px 2px 2px lightgray;
+}

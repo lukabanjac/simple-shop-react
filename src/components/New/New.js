@@ -1,10 +1,8 @@
 import * as React from "react";
-import axios from 'axios';
-import { Redirect } from 'react-router-dom';
-import { Form, Button }from "react-bootstrap";
+import ApiService from '../../service/api-service';
+import { Form, Button } from "react-bootstrap";
 import "./New.css";
 
-const url = "https://my-json-server.typicode.com/brankostancevic/products/products";
 
 
 
@@ -17,33 +15,21 @@ class New extends React.Component {
             price : "",
             image : ""
         };
-        this.submitted = false;
-
-        
-        
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const name = target.name;
         const value = target.value;
         this.setState({[name]: value});
     }
 
-    handleSubmit(event) {
-        axios.post(url, this.state)
-            .then(result => { alert("Success!");
-                this.submitted = true;
-                this.render();
-            })
-            .catch(() =>  { alert("FAIL!") })
-        event.preventDefault();
+    handleSubmit = (event) => {
+        const setNew = ApiService.setNew(this.state)
+        setNew.then((msg) => { alert(msg) }).catch((msg) => { alert(msg) });
     }
 
     render() {
-        if (this.submitted) { return <Redirect to="/" /> }
         return (
             <div className="new-product">
                 <Form onSubmit={this.handleSubmit}>
@@ -66,7 +52,7 @@ class New extends React.Component {
                         <Form.Label>Image:</Form.Label>
                         <Form.Control type="text" name="image" value={this.state.image} onChange={this.handleChange} placeholder="URL" />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="button" onClick={this.handleSubmit}>
                         Submit
                     </Button>
                 </Form>
