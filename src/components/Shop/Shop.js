@@ -1,7 +1,7 @@
 import * as React from "react";
-import ApiService from '../../service/api-service';
 import ShopContext from '../../context/shop-context'
-import { BsSearch } from "react-icons/bs";
+import { Button } from "react-bootstrap";
+import { BsSearch, BsArrowClockwise } from "react-icons/bs";
 
 
 import "./Shop.css";
@@ -17,22 +17,22 @@ const radios = [
 
 class Shop extends React.Component {
     static contextType = ShopContext;
-    constructor(props) {
-        super(props);
-        this.state = {
-            loaded : false
-        }
+
+    refresh = () => {
+        this.context.refresh();
     }
-    
 
     render() {
         return (
             <ShopContext.Consumer>
                 {context => (
                     <div id="shop">
-                        <BsSearch />
-                        <input placeholder="Search" />
-                        <LoadedCheck isLoaded={this.state.loaded}/>
+                        <div>
+                            <BsSearch className="mr-2" />
+                            <input placeholder="Search" />
+                            <Button className="ml-4" variant="success" onClick={this.refresh}><BsArrowClockwise /></Button>
+                        </div>
+                        <Products />
                     </div>
                 )}
             </ShopContext.Consumer>
@@ -44,11 +44,3 @@ class Shop extends React.Component {
 };
 
 export default Shop;
-
-
-function LoadedCheck(props) {
-    if (props.isLoaded) {
-        return <Products value={props.products} />
-    }
-    return <div>Loading...</div>
-}

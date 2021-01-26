@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BsFillPlusSquareFill, BsPencilSquare, BsTrash } from "react-icons/bs";
-import ShopContext from '../../../../context/shop-context'
+import ShopContext from '../../../../context/shop-context';
+import { Link } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
 
 import "./Product.css";
@@ -19,7 +20,7 @@ class Product extends React.Component {
 
     
     setEditItem = () => {
-        this.context.addProductToCart(this.state.product);
+        this.context.editItem(this.state.product.id);
     }
 
     
@@ -37,14 +38,16 @@ class Product extends React.Component {
                         <Card.Subtitle>${this.state.product.price}</Card.Subtitle>
                         <Card.Text>{this.state.product.description}</Card.Text>
                         <div className="corner-buttons">
-                            <Button variant="primary" size="sm">
-                                <BsPencilSquare />
-                            </Button>{' '}
+                            <Link to='/edit'>
+                                <Button variant="primary" size="sm" onClick={this.setEditItem}>
+                                    <BsPencilSquare />
+                                </Button>
+                            </Link>{' '}
                             <Button variant="secondary" size="sm" onClick={this.deleteItem}>
                                 <BsTrash />
                             </Button>
                         </div>
-                        <Button variant="primary" onClick={this.addToCart} block><BsFillPlusSquareFill /> Add to cart</Button>
+                            <Button variant="primary" onClick={this.addToCart} block><BsFillPlusSquareFill /> Add to cart</Button>
                     </Card.Body>
                 </Card>
             </div>

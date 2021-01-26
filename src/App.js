@@ -3,6 +3,7 @@ import * as React from 'react';
 import Root from "./components/Root";
 import { BrowserRouter } from "react-router-dom";
 import ShopContext from './context/shop-context';
+import ApiService from './service/api-service';
 
 
 
@@ -10,22 +11,28 @@ class App extends React.Component {
 	state = {
 		products: [],
 		cart: [],
-		editItem: {},
-		formattedProducts: []
+		editingItem: {},
+		formattedProducts: [],
+		loaded: Boolean
 	};
 
 
 
 	componentDidMount() {
+		this.refresh();
+  }
+
+	refresh = () => {
+		this.setState({ loaded: false });
 		const get = ApiService.getProducts();
 		get.then((data) => {
-			 this.context.setProducts(data);
-			 this.context.setFormattedProducts(this.formattedRows(data));
+			 this.setProducts(data);
+			 this.setFormattedProducts(this.formattedRows(data));
 			 this.setState({ loaded: true });
 		}).catch((msg) => {
 			 alert(msg);
 		});
-  }
+	}
 
   formattedRows(list) {
 		return list.reduce((c, n, i) => {
@@ -62,10 +69,16 @@ class App extends React.Component {
 	// PRODUCT
 	//==========================================================================================
 	addNewItem = item => {
+		console.log("Adding: ", item);
+		console.log(Math.floor(Math.random()*100));
+		item.id = Math.floor(Math.random()*100);
 		let updatedProducts = [...this.state.products]
 		updatedProducts.push(item);
-		console.log(updatedProducts); 
-		this.setState({products: updatedProducts});
+		this.setState({
+			products: updatedProducts,
+			formattedProducts: this.formattedRows(updatedProducts)
+		});
+		console.log(this.state.products); 
 	}
 
 	deleteProduct = productId => {
@@ -75,9 +88,23 @@ class App extends React.Component {
 			item => item.id === ID
 			);
 		updatedProducts.splice(updatedItemIndex, 1);
-		console.log(updatedProducts); 
-		this.setProducts(updatedProducts);
+		this.setState({
+			products: updatedProducts,
+			formattedProducts: this.formattedRows(updatedProducts)
+		});
 	}
+
+	editItem = productId => {
+		let ID = parseInt(productId);
+		let updatedProducts = [...this.state.products];
+		const updatedItemIndex = updatedProducts.findIndex(
+			item => item.id === ID
+			);
+		const product = this.state.products[updatedItemIndex];
+		this.setState({editingItem: product});
+		console.log(this.state.editingItem);
+	}
+	
 	//==========================================================================================
 
 
@@ -161,10 +188,17 @@ class App extends React.Component {
 	//==========================================================================================
 
 
-/* 
-	setEditItem = item => {
-		this.state.editItem = item;
-	} */
+
+
+
+
+
+
+
+
+
+
+
 
 	render() {
 		return (
@@ -172,6 +206,9 @@ class App extends React.Component {
 			value={{
 				products: this.state.products,
 				cart: this.state.cart,
+				loaded: this.loaded,
+				refresh: this.refresh,
+				editingItem: this.editingItem,
 				formattedProducts: this.state.formattedProducts,
 				setFormattedProducts: this.setFormattedProducts,
 				setProducts: this.setProducts,

@@ -5,6 +5,7 @@ import About from "./About/About";
 //import Home from "./Home/About";
 import Shop from "./Shop/Shop";
 import Cart from "./Cart/Cart";
+import Edit from "./Edit/Edit";
 import Navigation from "./Navigation/Navigation";
 import New from "./New/New";
 
@@ -22,6 +23,7 @@ const Root = () => {
                 <Route component={About} exact path="/about" /> 
                 <Route component={Shop} exact path="/shop" /> 
                 <Route component={Cart} exact path="/cart" /> 
+                <Route component={Edit} exact path="/edit" /> 
                 <Route component={New} exact path="/new" /> 
             </Switch>
         </div>
