@@ -3,8 +3,14 @@ import React from 'react';
 export default React.createContext({
    products: [],
    cart: [],
-	addProductToCart: (product) => {},
+   formattedProducts: [],
+   addProductToCart: (product) => {},
+   setProducts: (products) => {},
+   setFormattedProducts: (products) => {},
 	removeProductFromCart: (productId) => {},
 	increaseQuantity: (productId) => {},
-	decreaseQuantity: (productId) => {}
+   decreaseQuantity: (productId) => {},
+   addNewItem: (item) => {},
+   deleteProduct: (itemId) => {},
+   setEditItem: (item) => {}
 });

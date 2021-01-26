@@ -17,6 +17,16 @@ class Product extends React.Component {
         this.context.addProductToCart(this.state.product);
     }
 
+    
+    setEditItem = () => {
+        this.context.addProductToCart(this.state.product);
+    }
+
+    
+    deleteItem = () => {
+        this.context.deleteProduct(this.state.product.id);
+    }
+
     render() {
         return (
             <div>
@@ -30,7 +40,7 @@ class Product extends React.Component {
                             <Button variant="primary" size="sm">
                                 <BsPencilSquare />
                             </Button>{' '}
-                            <Button variant="secondary" size="sm">
+                            <Button variant="secondary" size="sm" onClick={this.deleteItem}>
                                 <BsTrash />
                             </Button>
                         </div>

@@ -1,14 +1,13 @@
 import * as React from "react";
-import axios from 'axios';
+import ShopContext from '../../../context/shop-context'
 import { Redirect } from 'react-router-dom';
 import { Form, Button }from "react-bootstrap";
 import "./Edit.css";
 
-const url = "https://my-json-server.typicode.com/brankostancevic/products/products";
-
 
 
 class Edit extends React.Component {
+    static contextType = ShopContext;
     constructor(props) {
         super(props);
         this.state = {

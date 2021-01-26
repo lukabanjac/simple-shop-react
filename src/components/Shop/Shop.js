@@ -23,18 +23,6 @@ class Shop extends React.Component {
             loaded : false
         }
     }
-
-    componentDidMount() {
-        const get = ApiService.getProducts();
-        get.then((data) => {
-            this.context.products = data;
-            this.setState({ loaded: true });
-        }).catch((msg) => {
-            alert(msg);
-        });
-        console.log(this.context)
-    }
-
     
 
     render() {
@@ -44,7 +32,7 @@ class Shop extends React.Component {
                     <div id="shop">
                         <BsSearch />
                         <input placeholder="Search" />
-                        <LoadedCheck isLoaded={this.state.loaded} products={this.context.products} />
+                        <LoadedCheck isLoaded={this.state.loaded}/>
                     </div>
                 )}
             </ShopContext.Consumer>

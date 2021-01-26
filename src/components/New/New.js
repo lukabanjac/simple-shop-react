@@ -1,12 +1,14 @@
 import * as React from "react";
 import ApiService from '../../service/api-service';
 import { Form, Button } from "react-bootstrap";
+import ShopContext from '../../context/shop-context'
 import "./New.css";
 
 
 
 
 class New extends React.Component {
+    static contextType = ShopContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +28,7 @@ class New extends React.Component {
 
     handleSubmit = (event) => {
         const setNew = ApiService.setNew(this.state)
-        setNew.then((msg) => { alert(msg) }).catch((msg) => { alert(msg) });
+        setNew.then((msg) => { this.context.addNewItem(this.state); }).catch((msg) => { alert(msg) });
     }
 
     render() {

@@ -9,11 +9,93 @@ import ShopContext from './context/shop-context';
 class App extends React.Component {
 	state = {
 		products: [],
-		cart: []
+		cart: [],
+		editItem: {},
+		formattedProducts: []
 	};
 
+
+
+	componentDidMount() {
+		const get = ApiService.getProducts();
+		get.then((data) => {
+			 this.context.setProducts(data);
+			 this.context.setFormattedProducts(this.formattedRows(data));
+			 this.setState({ loaded: true });
+		}).catch((msg) => {
+			 alert(msg);
+		});
+  }
+
+  formattedRows(list) {
+		return list.reduce((c, n, i) => {
+			 if (i % 3 === 0) c.push([]);
+			 c[c.length - 1].push(n);
+			 return c;
+		}, []);
+  }
+
+
+
+
+
+
+  	//SETTERS
+	//==========================================================================================
+	setProducts = products => {
+		this.setState({products: products});
+	};
+
+	setFormattedProducts = products => {
+		this.setState({formattedProducts: products});
+	};
+	//==========================================================================================
+
+	
+
+
+
+
+
+
+
+	// PRODUCT
+	//==========================================================================================
+	addNewItem = item => {
+		let updatedProducts = [...this.state.products]
+		updatedProducts.push(item);
+		console.log(updatedProducts); 
+		this.setState({products: updatedProducts});
+	}
+
+	deleteProduct = productId => {
+		let ID = parseInt(productId);
+		let updatedProducts = [...this.state.products];
+		const updatedItemIndex = updatedProducts.findIndex(
+			item => item.id === ID
+			);
+		updatedProducts.splice(updatedItemIndex, 1);
+		console.log(updatedProducts); 
+		this.setProducts(updatedProducts);
+	}
+	//==========================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// CART
+	//==========================================================================================
 	addProductToCart = product => {
-		console.log("Adding product!", product);
 		const updatedCart = [...this.state.cart];
 		const updatedItemIndex = updatedCart.findIndex(
 			item => item.id === product.id
@@ -31,14 +113,24 @@ class App extends React.Component {
 		this.setState({cart: updatedCart});
 	};
 
+	removeProductFromCart = productId => {
+		let ID = parseInt(productId);
+		let updatedCart = [...this.state.cart];
+		const updatedItemIndex = updatedCart.findIndex(
+			item => item.id === ID
+			);
+		updatedCart.splice(updatedItemIndex, 1);
+		this.setState({cart: updatedCart});
+	}
+
 	decreaseQuantity = productId => {
+		let ID = parseInt(productId);
 		const updatedCart = [...this.state.cart];
 		
 		const updatedItemIndex = updatedCart.findIndex(
-			item => item.id === productId
+			item => item.id === ID
 			);
 			
-			console.log(updatedItemIndex)
 		const updatedItem = {
 			...updatedCart[updatedItemIndex]
 		};
@@ -53,9 +145,10 @@ class App extends React.Component {
 	};
 
 	increaseQuantity = productId => {
+		let ID = parseInt(productId);
 		const updatedCart = [...this.state.cart];
 		const updatedItemIndex = updatedCart.findIndex(
-			item => item.id === productId
+			item => item.id === ID
 		);
 
 		const updatedItem = {
@@ -65,6 +158,13 @@ class App extends React.Component {
 		updatedCart[updatedItemIndex] = updatedItem;
 		this.setState({cart: updatedCart});
 	};
+	//==========================================================================================
+
+
+/* 
+	setEditItem = item => {
+		this.state.editItem = item;
+	} */
 
 	render() {
 		return (
@@ -72,10 +172,17 @@ class App extends React.Component {
 			value={{
 				products: this.state.products,
 				cart: this.state.cart,
+				formattedProducts: this.state.formattedProducts,
+				setFormattedProducts: this.setFormattedProducts,
+				setProducts: this.setProducts,
 				addProductToCart: this.addProductToCart,
 				removeProductFromCart: this.removeProductFromCart,
 				increaseQuantity: this.increaseQuantity,
-				decreaseQuantity: this.decreaseQuantity
+				decreaseQuantity: this.decreaseQuantity,
+				setEditItem: this.setEditItem,
+				addNewItem: this.addNewItem,
+				editItem: this.editItem,
+				deleteProduct: this.deleteProduct
 			}}>
 				<BrowserRouter>
 					<Root />

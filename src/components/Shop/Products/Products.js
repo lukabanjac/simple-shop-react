@@ -2,48 +2,40 @@ import * as React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import "./Products.css";
+import ShopContext from "../../../context/shop-context";
 import Product from "./Product/Product";
 
 class Products extends React.Component {
-    constructor(props) {
-        super(props);
-        let products = this.formattedRows(props.value);
-        
-        this.state = {
-            products : products
-        };
-    }
+    static contextType = ShopContext;
 
 
-    formattedRows(list) {
-        return list.reduce((c, n, i) => {
-            if (i % 3 === 0) c.push([]);
-            c[c.length - 1].push(n);
-            return c;
-        }, []);
-    }
 
 
     render() {
         return (
-            <Container id="products">
-                        {
-                            this.state.products.map((value, index) => {
-                                return (
-                                    <Row key={index}>
-                                        {
-                                            value.map((value, index) => {
-                                                    return <Col key={value.id}>
-                                                        <Product product={value} />
-                                                    </Col>
-                                            })
-                                        } 
-                                    </Row> 
-                                ) 
-                            })
-                        }
+            <ShopContext.Consumer>
+                {context => (
+                    <Container id="products">
+                                {
+                                    this.context.formattedProducts.map((value, index) => {
+                                        return (
+                                            <Row key={index}>
+                                                {
+                                                    value.map((value, index) => {
+                                                            return <Col key={value.id}>
+                                                                <Product product={value} />
+                                                            </Col>
+                                                    })
+                                                } 
+                                            </Row> 
+                                        ) 
+                                    })
+                                }
 
-            </Container>
+                    </Container>
+
+                )}
+            </ShopContext.Consumer>
         );
     }
 };
