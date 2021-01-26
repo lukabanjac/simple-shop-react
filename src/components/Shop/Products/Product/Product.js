@@ -19,9 +19,9 @@ class Product extends React.Component {
     }
 
     
-    setEditItem = () => {
+    /* setEditItem = () => {
         this.context.editItem(this.state.product.id);
-    }
+    } */
 
     
     deleteItem = () => {
@@ -38,8 +38,14 @@ class Product extends React.Component {
                         <Card.Subtitle>${this.state.product.price}</Card.Subtitle>
                         <Card.Text>{this.state.product.description}</Card.Text>
                         <div className="corner-buttons">
-                            <Link to='/edit'>
-                                <Button variant="primary" size="sm" onClick={this.setEditItem}>
+                            <Link 
+                                to={{
+                                    pathname: "/edit",
+                                    search: "",
+                                    hash: "",
+                                    state: { editItem: this.state.product }
+                                }}>
+                                <Button variant="primary" size="sm">
                                     <BsPencilSquare />
                                 </Button>
                             </Link>{' '}

@@ -26,8 +26,7 @@ class App extends React.Component {
 		this.setState({ loaded: false });
 		const get = ApiService.getProducts();
 		get.then((data) => {
-			 this.setProducts(data);
-			 this.setFormattedProducts(this.formattedRows(data));
+			 this.setAll(data);
 			 this.setState({ loaded: true });
 		}).catch((msg) => {
 			 alert(msg);
@@ -54,8 +53,12 @@ class App extends React.Component {
 	};
 
 	setFormattedProducts = products => {
-		this.setState({formattedProducts: products});
+		this.setState({formattedProducts: this.formattedRows(products)});
 	};
+	setAll = products => {
+		this.setProducts(products);
+		this.setFormattedProducts(products);
+	}
 	//==========================================================================================
 
 	
@@ -74,11 +77,7 @@ class App extends React.Component {
 		item.id = Math.floor(Math.random()*100);
 		let updatedProducts = [...this.state.products]
 		updatedProducts.push(item);
-		this.setState({
-			products: updatedProducts,
-			formattedProducts: this.formattedRows(updatedProducts)
-		});
-		console.log(this.state.products); 
+		this.setAll(updatedProducts);
 	}
 
 	deleteProduct = productId => {
@@ -87,24 +86,44 @@ class App extends React.Component {
 		const updatedItemIndex = updatedProducts.findIndex(
 			item => item.id === ID
 			);
-		updatedProducts.splice(updatedItemIndex, 1);
-		this.setState({
-			products: updatedProducts,
-			formattedProducts: this.formattedRows(updatedProducts)
-		});
+		const deleteProduct = ApiService.deleteProduct(updatedProducts[updatedItemIndex]);
+		deleteProduct.then((msg) => { 
+			updatedProducts.splice(updatedItemIndex, 1);
+			this.setAll(updatedProducts);
+			console.log(msg); 
+		}
+		).catch((msg) => console.log(msg));
+
 	}
 
-	editItem = productId => {
-		let ID = parseInt(productId);
+	editItem = editedProduct => {
 		let updatedProducts = [...this.state.products];
 		const updatedItemIndex = updatedProducts.findIndex(
-			item => item.id === ID
+			item => item.id === editedProduct.id
 			);
-		const product = this.state.products[updatedItemIndex];
-		this.setState({editingItem: product});
-		console.log(this.state.editingItem);
+		updatedProducts[updatedItemIndex] = {...editedProduct};
+		this.setAll(updatedProducts);
 	}
-	
+
+	sortLowestPriceFirst = () => {
+		const products = [...this.state.products];
+		const sorted = products.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+		this.setFormattedProducts(sorted);
+	}
+
+	sortHighestPriceFirst = () => {
+		const products = [...this.state.products];
+		const sorted = products.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+		console.log(sorted);
+		this.setFormattedProducts(sorted);
+	}
+
+		
+
+/* 		console.log(products[updatedItemIndex])
+		this.setState({editingItem: products[updatedItemIndex]});
+		console.log(this.state.editingItem) */
+		
 	//==========================================================================================
 
 
@@ -212,6 +231,7 @@ class App extends React.Component {
 				formattedProducts: this.state.formattedProducts,
 				setFormattedProducts: this.setFormattedProducts,
 				setProducts: this.setProducts,
+				setAll: this.setAll,
 				addProductToCart: this.addProductToCart,
 				removeProductFromCart: this.removeProductFromCart,
 				increaseQuantity: this.increaseQuantity,
@@ -219,7 +239,10 @@ class App extends React.Component {
 				setEditItem: this.setEditItem,
 				addNewItem: this.addNewItem,
 				editItem: this.editItem,
-				deleteProduct: this.deleteProduct
+				deleteProduct: this.deleteProduct,
+				sortLowestPriceFirst: this.sortLowestPriceFirst,
+				sortHighestPriceFirst: this.sortHighestPriceFirst,
+
 			}}>
 				<BrowserRouter>
 					<Root />

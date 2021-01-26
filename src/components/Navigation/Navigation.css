@@ -7,3 +7,44 @@
 .img {
     max-height: 50px;
 }
+
+.about-button {
+    border-color: #2E377E !important;
+    background-color: #2E377E !important;
+}
+
+.shopping-cart-button {
+    border-color: #2E377E !important;
+    background-color: #2E377E !important;
+}
+
+
+
+
+.dropdown-item-content {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+
+
+.dropdown-image {
+    min-width: 80px !important;
+    max-width: 90% !important;
+}
+
+.dropdown-title {
+    color: black;
+    padding-left: 5px;
+    min-width: 100px !important;
+}
+
+.dropdown-info {
+    color: gray !important;
+}
+
+.table {
+    max-width: 250px;
+}

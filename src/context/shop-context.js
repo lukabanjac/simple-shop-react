@@ -4,6 +4,7 @@ export default React.createContext({
    products: [],
    cart: [],
    formattedProducts: [],
+   editingItem: {},
    addProductToCart: (product) => {},
    setProducts: (products) => {},
    setFormattedProducts: (products) => {},
@@ -12,5 +13,7 @@ export default React.createContext({
    decreaseQuantity: (productId) => {},
    addNewItem: (item) => {},
    deleteProduct: (itemId) => {},
-   setEditItem: (item) => {}
+   editItem: (item) => {},
+   sortLowestPriceFirst: () => {},
+   sortHighestPriceFirst: () => {}
 });

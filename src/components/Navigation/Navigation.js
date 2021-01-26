@@ -1,9 +1,9 @@
 import * as React from "react";
-import { TiShoppingCart } from "react-icons/ti";
+import { TiShoppingCart, TiArrowLeftThick } from "react-icons/ti";
 import { Link } from "react-router-dom"
 import ShopContext from '../../context/shop-context'
 
-import { Button, Nav, Navbar } from "react-bootstrap";
+import { Badge, Button, Nav, Navbar, Dropdown } from "react-bootstrap";
 
 
 import logo from "../../assets/logo.png";
@@ -29,16 +29,50 @@ class Navigation extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                         <Link to="./about">
-                            <Button variant="primary">About</Button>
+                            <Button className="about-button mr-5" variant="primary">About</Button>
                         </Link>
                         
                         <Link to="/new">
-                            <Button variant="success">New Product</Button>
+                            <Button className="mr-3" variant="success">New Product</Button>
                         </Link>
 
-                        <Link to="/cart">
-                            <Button><TiShoppingCart />{this.context.cart.reduce((count, currItem) => {return count + currItem.quantity;}, 0)}</Button>
-                        </Link>
+                        <Dropdown drop="left">
+                            <Dropdown.Toggle className="shopping-cart-button" variant="success" id="dropdown-basic">  
+                                <TiShoppingCart />
+                                <Badge variant="primary">{this.context.cart.reduce((count, currItem) => {return count + currItem.quantity;}, 0)}</Badge>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                {
+                                    this.context.cart.map((value, index) => {
+                                        return (
+                                            <Dropdown.Item>
+                                                <div className="dropdown-item-content">
+                                                    <div>
+                                                        <img className="dropdown-image" src={value.image} alt=""/>
+                                                    </div>
+                                                    <div className="dropdown-title">
+                                                        {value.title}
+                                                    </div>
+                                                    <div className="dropdown-info">
+                                                        x{value.quantity}
+                                                    </div>
+                                                </div>
+                                            </Dropdown.Item>
+                                        )
+                                    })
+                                }
+                                
+                                <Dropdown.Item>
+                                    <Link to="/cart">
+                                        <Button className="shopping-cart-button">
+                                            <TiArrowLeftThick />
+                                            Go to checkout
+                                        </Button>
+                                    </Link>
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </Nav>
                     </Navbar.Collapse>
                 </Navbar>
@@ -50,3 +84,5 @@ class Navigation extends React.Component {
 };
 
 export default Navigation;
+
+
