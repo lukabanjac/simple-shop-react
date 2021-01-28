@@ -28,7 +28,7 @@ class New extends React.Component {
 
     handleSubmit = (event) => {
         const setNew = ApiService.setNew(this.state)
-        setNew.then((msg) => { this.context.addNewItem(this.state); }).catch((msg) => { alert(msg) });
+        setNew.then((msg) => { this.context.addNewItem(this.state); this.props.history.push("/shop"); }).catch((msg) => { alert(msg) });
     }
 
     render() {
